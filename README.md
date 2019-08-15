@@ -32,17 +32,30 @@ I am running Ubuntu off of a 128GB Partition of my primary SSD that is shared wi
 * **NOTE:** You may need to disable `Secure Boot` in your BIOS.
     My motherboard would not allow me to install the nvidia drivers with `Secure Boot` enabled, so I had to disable it in order to proceed.
 
-1. Add driver location to the apt-get repositories, then update the repoitories, then install dependancies for the nvidia drivers:
+1. Get a list of available drivers:
+
+    ```terminal
+    ubuntu-drivers list
+    ```
+
+    The output should liike something like this:
+
+    ```terminal
+    nvidia-driver-430
+    nvidia-driver-390
+    ```
+
+2. Add driver location to the apt-get repositories, then update the repoitories, then install dependancies for the nvidia drivers:
 
     ```terminal
     sudo add-apt-repository ppa:graphics-drivers && \
     sudo apt-get update && \
-    sudo apt install -y nvidia-driver-410 && sudo reboot
+    sudo apt install -y nvidia-driver-430 && sudo reboot
     ```
 
     Continue after the reboot...
 
-4. Verify the driver installation:
+3. Verify the driver installation:
 
     ```terminal
     nvidia-smi
@@ -71,13 +84,13 @@ I am running Ubuntu off of a 128GB Partition of my primary SSD that is shared wi
     +-----------------------------------------------------------------------------+
     ```
 
-5. Install nvidia Cuda Toolkit:
+4. Install nvidia Cuda Toolkit:
 
     ```terminal
     sudo apt-get install -y nvidia-cuda-toolkit
     ```
 
-6. Verify:
+5. Verify:
 
     ```terminal
     nvcc --version
