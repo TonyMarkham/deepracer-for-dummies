@@ -44,5 +44,6 @@
     You should see output that looks like this:
 
     ```terminal
-    abc
+    Filesystem      Size  Used Avail Use% Mounted on
+    /dev/sdb1       1.8T   77M  1.7T   1% /home/tony/git
     ```
