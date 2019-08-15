@@ -24,6 +24,6 @@
 
     ```terminal
     UUID=1f2d0d30-f4c5-4c1c-8de2-f0fd2fdd1cb0 && \
-    printf "UUID=${UUID}  ${HOME}/git  default  0  0" | sudo tee -a /etc/fstab && \
+    printf "UUID=${UUID}  ${HOME}/git  ext4  default  0  0" | sudo tee -a /etc/fstab && \
     sudo mount -a
     ```
