@@ -3,6 +3,17 @@
 ## **Content**
 
 * [1. Install Ubuntu](#Install-Ubuntu)
+* [2. Install nvidia drivers](#Install-nvidia-drivers)
+* [3. Install Anaconda](#Install-Anaconda)
+* [4. Install the AWS Commandline Interface (awscli)](#Install-the-AWS-Commandline-Interface-(awscli))
+* [5. Configure aws.cli](#Configure-aws.cli)
+* [6. Install Docker](#Install-Docker)
+* [7. Install Docker Compose](#Install-Docker-Compose)
+* [8. Install nvidia-docker](#Install-nvidia-docker)
+* [9. Post Docker Install](#Post-Docker-Install)
+* [10. Install VNC Viewer](#Install-VNC-Viewer)
+* [11. Install Visual Studio Code](#Install-Visual-Studio-Code)
+* [12. Reboot](#Reboot)
 
 ## **Install Ubuntu**
 
@@ -15,6 +26,19 @@ I am running Ubuntu off of a 128GB Partition of my primary SSD that is shared wi
 [Instructions: Mounting a drive to your $HOME directory in Ubuntu](./docs/mount-drive.md)
 
 [Back to Top](#DeepRacer-For-Dummies)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Provides a quick and easy way to get up and running with a local deepracer training environment using Docker Compose.
