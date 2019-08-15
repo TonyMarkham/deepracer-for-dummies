@@ -20,10 +20,22 @@
 
 3. In the top-Right corner of the `gparted` window, select the hard drive that you want to mount.
 4. `Right-Click` on the partition that you want to mount and select `information`.
-5. Add this partition to your `HOME` directory as the `git` sub-directory:
+5. Make a `git` directory in your `HOME` folder:
 
     ```terminal
-    UUID=1f2d0d30-f4c5-4c1c-8de2-f0fd2fdd1cb0 && \
-    printf "UUID=${UUID}  ${HOME}/git  ext4  default  0  0\n" | sudo tee -a /etc/fstab && \
+    sudo mkdir $HOME/git
+    ```
+
+6. Add this partition to your `HOME` directory as the `git` sub-directory:
+
+    ```terminal
+    UUID=1f2d0d30-f4c5-4c1c-8de2-f0fd2fdd1cb0
+    ```
+
+    ```terminal
+    echo "UUID=\"${UUID}\"  ${HOME}/git  ext4  default  0  0" | sudo tee -a /etc/fstab
+    ```
+
+    ```terminal
     sudo mount -a
     ```
