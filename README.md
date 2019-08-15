@@ -27,248 +27,509 @@ I am running Ubuntu off of a 128GB Partition of my primary SSD that is shared wi
 
 [Back to Top](#DeepRacer-For-Dummies)
 
+## **Install nvidia drivers**
 
+* **NOTE:** You may need to disable `Secure Boot` in your BIOS.
+    My motherboard would not allow me to install the nvidia drivers with `Secure Boot` enabled, so I had to disable it in order to proceed.
 
+1. Add driver location to the apt-get repositories:
 
+    ```terminal
+    sudo add-apt-repository ppa:graphics-drivers
+    ```
 
+2. Update apt-get:
 
+    ```terminal
+    sudo apt-get update
+    ```
 
+3. Install the driver and then reboot:
 
+    ```terminal
+    sudo apt install -y nvidia-driver-410 && sudo reboot
+    ```
 
+    Continue after the reboot...
 
+4. Verify the driver installation:
 
+    ```terminal
+    nvidia-smi
+    ```
 
+    You should see output that looks like this:
 
+    ```terminal
+    Sat Aug 10 14:43:31 2019
+    +-----------------------------------------------------------------------------+
+    | NVIDIA-SMI 430.26       Driver Version: 430.26       CUDA Version: 10.2     |
+    |-------------------------------+----------------------+----------------------+
+    | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+    | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+    |===============================+======================+======================|
+    |   0  GeForce GTX 108...  Off  | 00000000:01:00.0  On |                  N/A |
+    |  0%   47C    P5    21W / 275W |    561MiB / 11175MiB |      0%      Default |
+    +-------------------------------+----------------------+----------------------+
 
+    +-----------------------------------------------------------------------------+
+    | Processes:                                                       GPU Memory |
+    |  GPU       PID   Type   Process name                             Usage      |
+    |=============================================================================|
+    |    0      1247      G   /usr/lib/xorg/Xorg                           415MiB |
+    |    0      1389      G   /usr/bin/gnome-shell                         143MiB |
+    +-----------------------------------------------------------------------------+
+    ```
 
-Provides a quick and easy way to get up and running with a local deepracer training environment using Docker Compose.
-This repo just creates a wrapper around the amazing work done by Chris found here: https://github.com/crr0004/deepracer
-Please refer to his repo to understand more about what's going on under the covers.
+5. Install nvidia Cuda Toolkit:
 
-# Getting Started
+    ```terminal
+    sudo apt-get install -y nvidia-cuda-toolkit
+    ```
 
----
-#### Prerequisites
+6. Verify:
 
-* This project is specifically built to run on Ubuntu 18.04 with an **Nvidia GPU**. It is assumed you already have **CUDA/CUDNN** installed and configured.
+    ```terminal
+    nvcc --version
+    ```
 
-* You also need to have **Docker** installed as well as the **Nvidia-Docker** runtime.
+    You should see output that looks like this:
 
-* You should have an AWS account with the **AWS cli** installed. The credentials should be located in your home directory (~/.aws/credentials)
+    ```terminal
+    nvcc: NVIDIA (R) Cuda compiler driver
+    Copyright (c) 2005-2017 NVIDIA Corporation
+    Built on Fri_Nov__3_21:07:56_CDT_2017
+    Cuda compilation tools, release 9.1, V9.1.85
+    ```
 
-* ensure you have **vncviewer** installed
+[Back to Top](#DeepRacer-For-Dummies)
 
-#### NOTE: If you already have these prerequisites setup then you can simply run the init.sh script described in the **Initialization** section. If you are setting everything up for the first time, then the information provided here can help you to get your environment ready to use this repo.
+## **Install Anaconda**
 
+1. Download Anaconda:
 
-#### Local Environment Setup
+    ```terminal
+    sudo apt-get update -y && \
+        sudo apt-get upgrade -y && \
+        cd /tmp/ && \
+        sudo wget https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
+    ```
 
-If you are running Windows and would like to use this repo, you will need to modify the process to get everything to run on Windows (not recommended as you will not be able to take advantage of the GPU during training) Many users have found it useful to dual-boot (Windows/Linux). There are many tutorials online for how to do this. You can follow the instructions provided below as guidance.
+2. Install Anaconda:
 
-##### * Installing Ubuntu 18.04 with Windows 10
+    ```terminal
+    bash Anaconda3-2019.03-Linux-x86_64.sh
+    ```
 
-https://medium.com/bigdatarepublic/dual-boot-windows-and-linux-aa281c3c01f9
+3. Go back to your `HOME` directory:
 
-When it gets to the Disk Management part, to make space for your Ubuntu installation, followed this guide and specifically look at the 2nd method (MiniTool Partition Wizard):
+    ```terminal
+    cd ~
+    ```
 
-https://win10faq.com/shrink-partition-windows-10/?source=post_page---------------------------
+4. Activating Anaconda:
 
-=======
-##### * Installing the AWS CLI
+    ```terminal
+    source ~/.bashrc
+    ```
 
-	pip install -U awscli
-	
-Then Follow this: https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html
+5. Verifying the conda package manager works:
 
-##### * Installing Docker-ce (steps from https://docs.docker.com/install/linux/docker-ce/ubuntu/ )
-
-	sudo apt-get remove docker docker-engine docker.io containerd runc
-	sudo apt-get update
-	
-	  sudo apt-get install \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg-agent \
-    software-properties-common
-
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    sudo apt-key fingerprint 0EBFCD88
-	
-    sudo add-apt-repository \
-    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-    $(lsb_release -cs) \
-    stable"
-        
-	  sudo apt-get update
-    sudo apt-get install docker-ce docker-ce-cli containerd.io
-
-Verify docker works
-
-	sudo docker run hello-world
-
-##### 3. Installing Docker-compose (from https://docs.docker.com/compose/install/#install-compose )
-        
-    curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compose-`uname -s`-`uname -m` -o     /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
-
-Verify installation
-
-    docker-compose --version
-	
-###### NOTE: You can also choose to install docker-compose via another package manager (i.e. pip or conda), but if you do, make sure to do so in a virtual env.  Many OS’s have python system packages that conflict with docker-compose dependencies. ######
-
-Additionally, make sure your user-id can run docker without sudo (from https://docs.docker.com/install/linux/linux-postinstall/ )
-        
-	sudo groupadd docker
-	sudo usermod -aG docker $USER
-
-Log out and log back in so that your group membership is re-evaluated.
-
-And configure Docker to start on boot.
-
-    sudo systemctl enable docker
-
-##### * Preparing for nvidia-docker
-
-The NVIDIA Container Toolkit allows users to build and run GPU accelerated Docker containers.  
-Nvidia-docker essentially exposes the GPU to the containers to use:  https://github.com/NVIDIA/nvidia-docker
-
-You may want to note what you have installed currently.
-
-        sudo apt list --installed | grep nvidia
-
-Then prepare for clean installation of Nvidia drivers.
-
-        sudo apt-get purge nvidia*  
-
-##### Installing nvidia-docker runtime (from https://github.com/NVIDIA/nvidia-docker/wiki/Installation-(version-2.0) )
-
-    distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
-	curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
-	curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-	sudo apt-get update
-	sudo apt-get install nvidia-docker2
-	sudo pkill -SIGHUP dockerd
-
-##### * Installing the proper nvidia drivers
-
-Check for driver version here according to your GPU(s):  https://www.nvidia.com/Download/index.aspx?lang=en-us
-In the dropdown for OS, choose “show all OS’s” to see if there are Ubuntu specific choices.  Otherwise choose Linux.
-If you get a dropdown for “cuda toolkit”, choose 10.0)
-
-	sudo add-apt-repository ppa:graphics-drivers
-	sudo apt-get update
-	sudo apt install nvidia-driver-410 && sudo reboot 
-	
-###### NOTE: 410 is a driver version that is compatible with the GPU I selected on the Nvidia website. ######
-
-Verify the driver installation:
-	
-	nvidia-smi
-	nvcc --version  
-
-##### * Installing VNC viewer on your local machine
-
-This doc is straight forward: https://www.techspot.com/downloads/5760-vnc-viewer.html
-
-##### * Installing the Nvidia deep learning libraries (CUDA/CUDNN) for GPU hardware:
-
-This guide goes through how to install CUDA & CUDNN : https://medium.com/@zhanwenchen/install-cuda-and-cudnn-for-tensorflow-gpu-on-ubuntu-79306e4ac04e
-
-###### NOTE: You can apparently use Anaconda instead to install CUDA/CUDNN. I have not tried this, however some users have and have reported that this method is much easier. If you use this approach, you will need to first install Anaconda.  Once installed you can then use the conda package manager to install the desired versions of CUDA and cuDNN.  The following installation configuration has been reported to work together successfully ######
-
-##### Downloading Anaconda
-
-	sudo apt-get update -y && sudo apt-get upgrade -y
-	cd /tmp/
-	sudo wget https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
-
-##### Installing Anaconda
-
-	bash Anaconda3-2019.03-Linux-x86_64.sh
-	"yes" for using the default directory location
-	“yes” for running conda init
-
-##### Activating Anaconda  
-	
-	source ~/.bashrc
-	
-##### Verifying the conda package manager works
-
+    ```terminal
     conda list
+    ```
 
-##### Installing CUDA/CUDNN
+6. Installing CUDA/CUDNN:
 
+    ```terminal
     conda install cudnn==7.3.1 && conda install -c fragcolor cuda10.0
+    ```
 
+[Back to Top](#DeepRacer-For-Dummies)
 
-#### Initialization (After all prerequisites have been installed)
+## **Install the AWS Commandline Interface (awscli)**
 
+1. Install aws-cli
 
-##### 11. Run Init.sh from this repo (refer to the rest of this doc for script details) 
+    ```terminal
+    pip install awscli --upgrade --user
+    ```
 
-In a command prompt, simply run "./init.sh".
-This will set everything up so you can run the deepracer local training environment.
+2. Update your path to include the default location for aws:
 
+    ```terminal
+    echo "export PATH=\"$HOME/.local/bin:$PATH\"" >> ~/.bashrc && source ~/.bashrc
+    ```
 
-**init.sh** performs these steps so you don't have to do them manually:
-1. Clones Chris's repo:  https://github.com/crr0004/deepracer.git
-2. Does a mkdir -p ~/.sagemaker && cp config.yaml ~/.sagemaker
-3. Sets the image name in rl_deepracer_coach_robomaker.py  to "crr0004/sagemaker-rl-tensorflow:nvidia”
-4. Also sets the instance_type in rl_deepracer_coach_robomaker.py to “local_gpu”
-5. Copies the reward.py and model-metadata files into your Minio bucket
+3. Verify
 
+    ```terminal
+    aws --version
+    ```
 
-To start or stop the local deepracer training, use the scripts found in the scripts directory.
+    You should see soething similar to this:
 
-Here is a brief overview of the available scripts:
+    ```terminal
+    aws-cli/1.16.215 Python/3.7.3 Linux/5.0.0-23-generic botocore/1.12.205
+    ```
 
-#### Scripts
+[Back to Top](#DeepRacer-For-Dummies)
 
-* training
-	* start.sh
-		* starts the whole environment using docker compose
-		* it will also open a terminal window where you can monitor the log output from the sagemaker training directory
-		* it will also automatically open vncviewer so you can watch the training happening in Gazebo
-	* stop.sh
-		* stops the whole environment
-		* automatically finds and stops the training container which was started from the sagemaker container
-	* upload-snapshot.sh
-		* uploads a specific snapshot to S3 in AWS. If no checkpoint is provided, it attempts to retrieve the latest snapshot
-	* set-last-run-to-pretrained.sh
-		* renames the last training run directory from ***rl-deepracer-sagemaker*** to ***rl-deepracer-pretrained*** so that you can use it as a starting point for a new training run.
-	* delete-last-run.sh
-		* (WARNING: this script deletes files on your system. I take no responsibility for any resulting actions by running this script. Please look at what the script is doing before running it so that you understand)
-		* deletes the last training run including all of the snapshots and log files. You will need sudo to run this command.
+## **Configure aws.cli**
 
+1. Go to [https://aws.amazon.com/](https://aws.amazon.com/).
 
-* evaluation
-	* start.sh
-		* starts the whole environment using docker compose to run an evaluation run
-		* it will also open a terminal window where you can monitor the log output from the sagemaker training directory
-		* it will also automatically open vncviewer so you can watch the training happening in Gazebo
-	* stop.sh
-		* stops the whole environment
-		* automatically finds and stops the training container which was started from the sagemaker container
+    1. Click on `My Account`.
+    2. Select `AWS Management Console`.
 
-* log-analysis
-	* start.sh
-		* starts a container with Nvidia-Docker running jupyter labs with the log analysis notebooks which were originally provided by AWS and then extended by  Tomasz Ptak
-		* the logs from robomaker are automatically mounted in the container so you don't have to move any files around
-		* in order to get to the container, look at the log output from when it starts. You need to grab the URL including the token query parameter and then paste it into the brower at **localhost:8888**.
-	* stop.sh
-		* stops the log-analysis container
+    ![awscli_01_01_a.png](./img/awscli_01_01_a.png)
 
+2. Use your AWS Credentials:
+    1. Enter your `e-mail address` or your `AWS Account`
+    2. Click on `Next`.
 
-#### Hyperparameters
+    ![awscli_01_02_a.png](./img/awscli_01_02_a.png)
 
-You can modify training hyperparameters from the file **rl_deepracer_coach_robomaker.py**.
+3. Contuinue with your AWS Credentials:
+    1. Enter your `password`.
+    2. Click on `Next`.
 
-#### Action Space & Reward Function
+    ![awscli_01_03_a.png](./img/awscli_01_03_a.png)
 
-The action-space and reward function files are located in the **deepracer-for-dummies/docker/volumes/minio/bucket/custom_files** directory
+4. Locate the `Security, Identity, & Compliance` section:
+    1. Click on `IAM`.
 
-#### Track Selection
+    ![awscli_01_04_a.png](./img/awscli_01_04_a.png)
 
-The track selection is controled via an environment variable in the **.env** file located in the **deepracer-for-dummies/docker** directory
+5. In the `IAM Resources` section:
+    1. Click on `Users:`.
+
+    ![awscli_01_05_a.png](./img/awscli_01_05_a.png)
+
+6. Click on the `Add user` button
+
+    ![awscli_01_06_a.png](./img/awscli_01_06_a.png)
+
+7. On the 1st `Add user` form:
+    1. Enter a `User Name` in the `Set user details` area.
+    2. In the `Select AWS Access` area, add a check beside `Programmatic access`.
+    3. Click on the `Next: Permissions` button.
+
+    ![awscli_01_07_a.png](./img/awscli_01_07_a.png)
+
+8. On the 2nd `Add user` form:
+    1. Click on the `Attch existing policies directly` button.
+
+    ![awscli_01_08_a.png](./img/awscli_01_08_a.png)
+
+9. On the 3rd `Add user` form:
+    1. Add a check beside `Administrator Access`.
+    2. Click on the `Next: Tags` button.
+
+    ![awscli_01_09_a.png](./img/awscli_01_09_a.png)
+
+10. On the 4rd `Add user` form:
+    2. Click on the `Next: Review` button.
+
+    ![awscli_01_10_a.png](./img/awscli_01_10_a.png)
+
+11. IMPORTANT: Keep the 5th `Add user` page open in order to reference the temporary information:
+    1. The `Access Key ID` will be used when you run `aws configure`.
+    2. The `Security access key` will be used when you run `aws configure`.
+
+    ![awscli_01_11_a.png](./img/awscli_01_11_a.png)
+
+12. Configure your aws.cli:
+
+    ```terminal
+    aws configure
+    ```
+
+    Fill in the promts:
+
+    ```terminal
+    AWS Access Key ID [None]: {from Step 11 > 1}
+    AWS Secret Access Key [None]: {from Step 11 > 2}
+    Default region name [None]: us-east-1
+    Default output format [None]: table
+    ```
+
+[Back to Top](#DeepRacer-For-Dummies)
+
+## **Install Docker**
+
+1. Make sure your Ubuntu is clean of Docker components:
+
+    ```terminal
+    sudo apt-get remove docker docker-engine docker.io containerd runc
+    ```
+
+2. Update your packages:
+
+    ```terminal
+    sudo apt-get update
+    ```
+
+3. Install some prerequisite packages:
+
+    ```terminal
+    sudo apt-get install -y \
+        apt-transport-https \
+        ca-certificates \
+        curl \
+        gnupg-agent \
+        software-properties-common
+    ```
+
+4. Add the GPG key for the official Docker repository:
+
+    ```terminal
+    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    ```
+
+5. Add the figerrprint:
+
+    ```terminal
+    sudo apt-key fingerprint 0EBFCD88
+    ```
+
+6. Add the Docker Repository to your apt sources:
+
+    ```terminal
+    sudo add-apt-repository \
+        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+        $(lsb_release -cs) \
+        stable"
+    ```
+
+7. Update your packages again:
+
+    ```terminal
+    sudo apt-get update
+    ```
+
+8. Install Docker:
+
+    ```terminal
+    sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+    ```
+
+9. Check that Docker is running:
+
+    ```terminal
+    sudo systemctl status docker
+    ```
+
+    The output should be similar to the following, showing that the service is active and running:
+
+    ```terminal
+    ● docker.service - Docker Application Container Engine
+       Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
+       Active: active (running) since Sat 2019-08-10 14:48:45 EDT; 47s ago
+         Docs: https://docs.docker.com
+     Main PID: 8315 (dockerd)
+        Tasks: 16
+       CGroup: /system.slice/docker.service
+               └─8315 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+
+    Aug 10 14:48:45 ununtu-tony dockerd[8315]: time="2019-08-10T14:48:45.758698003-04:00" level=warning msg="Your kernel does not support cgroup rt runtime"
+    Aug 10 14:48:45 ununtu-tony dockerd[8315]: time="2019-08-10T14:48:45.758705200-04:00" level=warning msg="Your kernel does not support cgroup blkio weight"
+    Aug 10 14:48:45 ununtu-tony dockerd[8315]: time="2019-08-10T14:48:45.758712580-04:00" level=warning msg="Your kernel does not support cgroup blkio weight_device"
+    Aug 10 14:48:45 ununtu-tony dockerd[8315]: time="2019-08-10T14:48:45.758845989-04:00" level=info msg="Loading containers: start."
+    Aug 10 14:48:45 ununtu-tony dockerd[8315]: time="2019-08-10T14:48:45.827769825-04:00" level=info msg="Default bridge (docker0) is assigned with an IP address 172.17.0.0/16. Daemon option --bip can be used to set a preferred IP address"
+    Aug 10 14:48:45 ununtu-tony dockerd[8315]: time="2019-08-10T14:48:45.861340291-04:00" level=info msg="Loading containers: done."
+    Aug 10 14:48:45 ununtu-tony dockerd[8315]: time="2019-08-10T14:48:45.907651660-04:00" level=info msg="Docker daemon" commit=74b1e89 graphdriver(s)=overlay2 version=19.03.1
+    Aug 10 14:48:45 ununtu-tony dockerd[8315]: time="2019-08-10T14:48:45.907736004-04:00" level=info msg="Daemon has completed initialization"
+    Aug 10 14:48:45 ununtu-tony dockerd[8315]: time="2019-08-10T14:48:45.920939799-04:00" level=info msg="API listen on /var/run/docker.sock"
+    Aug 10 14:48:45 ununtu-tony systemd[1]: Started Docker Application Container Engine.
+    ```
+
+    Go ahead and \<CTRL-C\> to get out of that command.
+
+10. Check Docker's version:
+
+    ```terminal
+    docker --version
+    ```
+
+    And you should see something like this:
+
+    ```terminal
+    Docker version 19.03.1, build 74b1e89
+    ```
+
+[Back to Top](#DeepRacer-For-Dummies)
+
+## **Install Docker Compose**
+
+1. Run this command to download the current stable release of Docker Compose:
+
+    ```terminal
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    ```
+
+2. Apply executable permissions to the binary:
+
+    ```terminal
+    sudo chmod +x /usr/local/bin/docker-compose
+    ```
+
+3. Test Docker-Compose:
+
+    ```terminal
+    docker-compose --version
+    ```
+
+    And you should see something like this:
+
+    ```terminal
+    docker-compose version 1.24.1, build 4667896b
+    ```
+
+[Back to Top](#DeepRacer-For-Dummies)
+
+## **Install nvidia-docker**
+
+1. Set the `distribution` variable:
+
+    ```terminal
+    distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+    ```
+
+2. Set the gpgkey:
+
+    ```terminal
+    sudo curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+    ```
+
+3. Add nvidia-docker to your apt-get's distribution list:
+
+    ```terminal
+    curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+    ```
+
+4. Update the apt-get repositories:
+
+    ```terminal
+    sudo apt-get update
+    ```
+
+5. Install the `nvidia-docker2`
+
+    ```terminal
+    sudo apt-get install -y nvidia-docker2
+    ```
+
+6. Restart Docker:
+
+    ```terminal
+    sudo systemctl restart docker
+    ```
+
+[Back to Top](#DeepRacer-For-Dummies)
+
+## **Post Docker Install**
+
+1. Create the docker group.
+
+    ```terminal
+    sudo groupadd docker
+    ```
+
+2. Add your user to the docker group.
+
+    ```terminal
+    sudo usermod -aG docker $USER
+    ```
+
+3. Activate the changes to groups:
+
+    ```terminal
+    sudo newgrp docker
+    ```
+
+4. Verify that you can run docker commands without sudo.
+
+    ```terminal
+    docker run hello-world
+    ```
+
+5. Configure Docker to start on boot
+
+    ```terminal
+    sudo systemctl enable docker
+    ```
+
+[Back to Top](#DeepRacer-For-Dummies)
+
+## **Install VNC Viewer**
+
+1. Change to your `Downloads` folder
+
+    ```terminal
+    cd ~/Downloads
+    ```
+
+2. Download VNC Viewer.
+
+    ```terminal
+    sudo wget https://www.realvnc.com/download/file/viewer.files/VNC-Viewer-6.19.715-Linux-x64.deb
+    ```
+
+3. Install the VNC Viewer
+
+    ```terminal
+    sudo dpkg -i VNC-Viewer-6.19.715-Linux-x64.deb
+    ```
+
+4. Correct any missing depencies:
+
+    ```terminal
+    sudo apt install -f
+    ```
+
+5. Start `vncviewer` for the first time:
+
+    ```terminal
+    cd ~ && vncviewer
+    ```
+
+    Satisfy any windows that pop up and then close the viewer.
+
+[Back to Top](#DeepRacer-For-Dummies)
+
+## **Install Visual Studio Code**
+
+1. Import the Microsoft GPG key:
+
+    ```terminal
+    wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+    ```
+
+2. Enable the Visual Studio Code repository:
+
+    ```terminal
+    sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+    ```
+
+3. Update the apt-get repository:
+
+    ```terminal
+    sudo apt update
+    ```
+
+4. Install the latest version of Visual Studio Code:
+
+    ```terminal
+    sudo apt install -y code
+    ```
+
+[Back to Top](#DeepRacer-For-Dummies)
+
+## **Reboot**
+
+```terminal
+sudo reboot
+```
+
+[Back to Top](#DeepRacer-For-Dummies)
