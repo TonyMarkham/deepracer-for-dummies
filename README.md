@@ -32,21 +32,11 @@ I am running Ubuntu off of a 128GB Partition of my primary SSD that is shared wi
 * **NOTE:** You may need to disable `Secure Boot` in your BIOS.
     My motherboard would not allow me to install the nvidia drivers with `Secure Boot` enabled, so I had to disable it in order to proceed.
 
-1. Add driver location to the apt-get repositories:
+1. Add driver location to the apt-get repositories, then update the repoitories, then install dependancies for the nvidia drivers:
 
     ```terminal
-    sudo add-apt-repository ppa:graphics-drivers
-    ```
-
-2. Update apt-get:
-
-    ```terminal
-    sudo apt-get update
-    ```
-
-3. Install the driver and then reboot:
-
-    ```terminal
+    sudo add-apt-repository ppa:graphics-drivers && \
+    sudo apt-get update && \
     sudo apt install -y nvidia-driver-410 && sudo reboot
     ```
 
