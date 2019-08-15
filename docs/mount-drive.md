@@ -30,7 +30,7 @@
 6. Add this partition to your `git` sub-directory:
 
     ```terminal
-    UUID=1f2d0d30-f4c5-4c1c-8de2-f0fd2fdd1cb0 && \
+    UUID=f3e3c791-9bec-410c-bcc6-7e88a2efd226 && \
     echo "UUID=\"${UUID}\"  ${HOME}/git  ext4  defaults  0  0" | sudo tee -a /etc/fstab && \
     sudo mount -a
     ```
