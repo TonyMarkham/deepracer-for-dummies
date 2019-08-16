@@ -616,3 +616,81 @@ sudo reboot
     ```
 
 [Back to Top](#DeepRacer-For-Dummies)
+
+## **Start the Docker sagemaker-local Container**
+
+1. Start the something-tomething:
+
+    ```terminal
+    docker network create sagemaker-local
+    ```
+
+[Back to Top](#DeepRacer-For-Dummies)
+
+## **Set the track to train on**
+
+1. Edit the `WORLD_NAME` variable in the `deepracer-for-dummies/docker/.env` file:
+
+    ```terminal
+    sed -i 's/WORLD_NAME=AWS_track/WORLD_NAME=China_track/' ~/git/deepracer-for-dummies/docker/.env
+    ```
+
+[Back to Top](#DeepRacer-For-Dummies)
+
+## **Start the training with the defaults**
+
+1. Start the training:
+
+    ```terminal
+    cd ~/git/deepracer-for-dummies/scripts/training && \
+        ./start.sh
+    ```
+
+2. Stop the training:
+
+    ```terminal
+    cd ~/git/deepracer-for-dummies/scripts/training && \
+        ./stop.sh
+    ```
+
+[Back to Top](#DeepRacer-For-Dummies)
+
+## **Evaluate the training**
+
+1. Start evaluating the training:
+
+    ```terminal
+    cd ~/git/deepracer-for-dummies/scripts/evaluation && \
+        ./start.sh
+    ```
+
+2. Stop evaluating the training:
+
+    ```terminal
+    cd ~/git/deepracer-for-dummies/scripts/evaluation && \
+        ./stop.sh
+    ```
+
+[Back to Top](#DeepRacer-For-Dummies)
+
+## **Tweak the rewards**
+
+1. Edit the `reward.py` file in Visual Studio Code:
+
+```terminal
+code ~/git/deepracer-for-dummies/docker/volumes/minio/bucket/custom_files/reward.py
+```
+
+[Back to Top](#DeepRacer-For-Dummies)
+
+## **Tweak the hyperparameters**
+
+* Be aware that the default `rl_deepracer_coach_robomaker.py` populates the `job_duration_in_seconds` variable around line number `45` to run for `24` hours.  I personally set that to `1` hour for my initial testing.
+
+1. Edit the `rl_deepracer_coach_robomaker.py` file in Visual Studio Code:
+
+```terminal
+code ~/git/deepracer-for-dummies/rl_deepracer_coach_robomaker.py
+```
+
+[Back to Top](#DeepRacer-For-Dummies)
