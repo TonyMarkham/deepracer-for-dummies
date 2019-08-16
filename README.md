@@ -627,6 +627,16 @@ sudo reboot
 
 [Back to Top](#DeepRacer-For-Dummies)
 
+## **Bring up a GPU Monitor**
+
+1. Start `nvidia-smi` and refresh it every 0.5 seconds:
+
+    ```terminal
+    watch -n 0.5 nvidia-smi
+    ```
+
+[Back to Top](#DeepRacer-For-Dummies)
+
 ## **Set the track to train on**
 
 1. Edit the `WORLD_NAME` variable in the `deepracer-for-dummies/docker/.env` file:
