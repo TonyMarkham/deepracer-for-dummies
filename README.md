@@ -543,7 +543,7 @@ sudo reboot
 
     ```terminal
     sudo mkdir -p git && \
-        sudo chown -R $USER:$USER *
+        sudo chown -R $USER:$USER * && \
         cd git
     ```
 
