@@ -542,13 +542,15 @@ sudo reboot
 1. Create a Directory for cloning git Repositories:
 
     ```terminal
-    mkdir git && cd git
+    sudo mkdir -p git && \
+        sudo chown -R $USER:$USER *
+        cd git
     ```
 
 2. Clone the Repository:
 
     ```terminal
-    sudo git clone https://github.com/alexschultz/deepracer-for-dummies.git
+    git clone https://github.com/alexschultz/deepracer-for-dummies.git
     ```
 
 3. Change to the deepracer-for-dummies directory:
