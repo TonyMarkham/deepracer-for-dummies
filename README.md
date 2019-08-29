@@ -556,73 +556,7 @@ sudo reboot
 3. Change to the deepracer-for-dummies directory:
 
     ```terminal
-    cd deepracer-for-dummies
-    ```
-
-4. Create directory structure for docker volumes
-
-    ```terminal
-    mkdir -p docker/volumes/minio/bucket/custom_files \
-        docker/volumes/robo/checkpoint
-    ```
-
-5. Create symlink to current user's home .aws directory
-    * **NOTE:** AWS cli must be installed for this to work
-
-    ```terminal
-    ln -s $(eval echo "~${USER}")/.aws  docker/volumes/
-    ```
-
-6. Grab local training deepracer repo from crr0004 and log analysis repo from vreadcentric
-
-    ```terminal
-    git clone --recurse-submodules https://github.com/crr0004/deepracer.git
-    ```
-
-    ```terminal
-    git clone https://github.com/breadcentric/aws-deepracer-workshops.git && \
-        cd aws-deepracer-workshops && \
-        git checkout enhance-log-analysis && \
-        cd ..
-    ```
-
-    ```terminal
-    ln -s ../../aws-deepracer-workshops/log-analysis  ./docker/volumes/log-analysis
-    ```
-
-7. Setup symlink to rl-coach config file
-
-    ```terminal
-    ln -s deepracer/rl_coach/rl_deepracer_coach_robomaker.py rl_deepracer_coach_robomaker.py
-    ```
-
-8. Replace the contents of the rl_deepracer_coach_robomaker.py file with the gpu specific version (this is also where you can edit the hyperparameters)
-    * **TODO** this file should be genrated from a gui before running training
-
-    ```terminal
-    cat overrides/rl_deepracer_coach_robomaker.py > rl_deepracer_coach_robomaker.py
-    ```
-
-9. Build rl-coach image with latest code from crr0004's repo
-
-    ```terminal
-    docker build -f ./docker/dockerfiles/rl_coach/Dockerfile -t aschu/rl_coach deepracer/
-    ```
-
-10. Copy reward function and model-metadata files to bucket
-
-    ```terminal
-    cp deepracer/custom_files/* docker/volumes/minio/bucket/custom_files/
-    ```
-
-[Back to Top](#DeepRacer-For-Dummies)
-
-## **Start the Docker sagemaker-local Container**
-
-1. Start the something-tomething:
-
-    ```terminal
-    docker network create sagemaker-local
+    cd deepracer-for-dummies && sudo ./init.sh
     ```
 
 [Back to Top](#DeepRacer-For-Dummies)
