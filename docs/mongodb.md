@@ -41,3 +41,9 @@ This is called a data volume, the principal mechanism to import and export data 
   ```
   
   2. Double-Click on the `mongodb-compass-community_1.19.12_amd64.deb`
+
+## Install the pymongo Python library
+
+```
+pip install pymongo
+```
