@@ -11,7 +11,7 @@ mkdir mongoData
 2. Run the MongoDB Container
 
 ```
-docker run -d -p 27017:27017 -v ~/data:/data/db mongo
+docker run -d -p 27017:27017 -v ~/git/mongoData:/data/db mongo
 ```
 
 `-d`
