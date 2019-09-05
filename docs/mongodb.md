@@ -29,3 +29,15 @@ The syntax is `-p HOST_PORT:CONTAINER_PORT`
 Maps the `/data/db` directory of the container to the `~/data` directory on the host.
 
 This is called a data volume, the principal mechanism to import and export data with your docker container.
+
+## Install a MongoDB GUI Client
+
+1. Download the Community Edition of MongoDB Compass
+
+  The Ubuntu installation files can be downloaded from:
+  
+  ```
+  https://www.mongodb.com/download-center/compass?jmp=docs
+  ```
+  
+  2. Double-Click on the `mongodb-compass-community_1.19.12_amd64.deb`
