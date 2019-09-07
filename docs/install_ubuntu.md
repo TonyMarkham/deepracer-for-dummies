@@ -1,4 +1,4 @@
-# **DeepRacer-For-Dummies - Install Ubuntu**
+# **DeepRacer-For-Dummies - Install Ubuntu 18.04 LTS**
 
 For the purposes of the `Deep Racer` Project, I elected to only install a `minimal` installation of `ubuntu 18.04 LTS` Desktop.
 
