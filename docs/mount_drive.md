@@ -1,10 +1,4 @@
-# DeepRacer-For-Dummies
-
-## **Content**
-
-* [1. Install Ubuntu](#Install-Ubuntu)
-
-## **Install Ubuntu**
+# **DeepRacer-For-Dummies - Mount a Drive as `~/git`**
 
 1. Create a `git` sub-directory in your `HOME` directory:
 
@@ -27,7 +21,8 @@
 
 4. In the top-Right corner of the `gparted` window, select the hard drive that you want to mount.
 5. `Right-Click` on the partition that you want to mount and select `information`.
-6. Add this partition to your `git` sub-directory:
+6. Copy the `UUID` of the partition that you want to mount.
+7. Add this partition as your `~/git` sub-directory:
 
     ```terminal
     UUID=f3e3c791-9bec-410c-bcc6-7e88a2efd226 && \
@@ -35,7 +30,7 @@
     sudo mount -a
     ```
 
-7. Confirm that it allocated properly:
+8. Confirm that it allocated properly:
 
     ```terminal
     sudo df -h $HOME/git
@@ -47,3 +42,5 @@
     Filesystem      Size  Used Avail Use% Mounted on
     /dev/sdb1       1.8T   77M  1.7T   1% /home/tony/git
     ```
+
+[Back to readme](../README.md)
