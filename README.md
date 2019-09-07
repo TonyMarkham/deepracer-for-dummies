@@ -6,7 +6,7 @@
 
 * [1. Install `Ubuntu`](./docs/install_ubuntu.md)
 * [2. Install `nvidia Drivers`](./docs/install_nvidia_drivers.md)
-* [3. Install `Anaconda`](./docs/install_anaconda.md)
+* [3. Install `Anaconda` and `CUDA/CUDNN`](./docs/install_anaconda.md)
 * [4. Install the AWS Commandline Interface (`aws.cli`)](./docs/install_aws_-_commandline_interface_(aws.cli).md)
 * [5. Configure `aws.cli`](./docs/configure_aws.cli.md)
 * [6. Install `Docker`](./docs/install_docker.md)

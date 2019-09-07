@@ -15,7 +15,7 @@
 3. Install some prerequisite packages:
 
     ```terminal
-    sudo apt-get install -y \
+    sudo apt-get install -y -U \
         apt-transport-https \
         ca-certificates \
         curl \
@@ -29,25 +29,22 @@
     sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     ```
 
-5. Add the figerrprint:
+5. Add the Docker Repository to your apt sources:
 
     ```terminal
-    sudo apt-key fingerprint 0EBFCD88
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
     ```
 
-6. Add the Docker Repository to your apt sources:
-
-    ```terminal
-    sudo add-apt-repository \
-        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-        $(lsb_release -cs) \
-        stable"
-    ```
-
-7. Update your packages again:
+6. Update your packages again:
 
     ```terminal
     sudo apt-get update
+    ```
+
+7. Make sure you are about to install from the Docker repo instead of the default Ubuntu repo:
+
+    ```
+    apt-cache policy docker-ce
     ```
 
 8. Install Docker:

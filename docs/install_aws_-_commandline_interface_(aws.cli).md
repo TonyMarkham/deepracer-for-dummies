@@ -3,7 +3,7 @@
 1. Install aws-cli
 
     ```terminal
-    pip install awscli --upgrade --user
+    pip install --upgrade --user -y awscli
     ```
 
 2. Update your path to include the default location for aws:

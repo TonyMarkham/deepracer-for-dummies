@@ -1,9 +1,9 @@
 # **DeepRacer-For-Dummies - Install VNC Viewer**
 
-1. Change to your `Downloads` folder
+1. Change to your `/tmp` folder:
 
     ```terminal
-    cd ~/Downloads
+    cd /tmp
     ```
 
 2. Download VNC Viewer.
