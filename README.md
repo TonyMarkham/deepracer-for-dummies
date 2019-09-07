@@ -25,8 +25,6 @@
 
 ## ***Optional***
 
-***
-
 * [\[*optional*\] - Mount a Drive as `~/git`](./docs/mount_drive.md)
 * [\[*optional*\] - Install `MongoDB`](./docs/mongodb.md)
 * [\[*optional*\] - Starting/Stopping Training Evaluation](./docs/starting-stopping_training_evaluation.md)
