@@ -15,7 +15,7 @@
 * [9. Post Docker Install](./docs/post_docker_install.md)
 * [10. Install `VNC-Viewer`](./docs/install_vnc-viewer.md)
 * [11. Install `Visual Studio Code`](./docs/install_visual_studio_code.md)
-* [12. Reboot](#Reboot)
+* [12. `Reboot`](#DeepRacer-For-Dummies)
 * [13. Clone the `deepracer-for-dummies` Repository](./docs/clone_the_deepracer-for-dummies_repository.md)
 * [14. `Set the Track` to Train On](./docs/set_the_track_to_train_on.md)
 * [15. Tweak the `Action Space`](./docs/tweak_the_a_ction_space.md)
