@@ -2,8 +2,6 @@
 
 ## **Content**
 
-***
-
 * [1. Install `Ubuntu 18.04 LTS`](./docs/install_ubuntu.md)
 * [2. Install `nvidia Drivers`](./docs/install_nvidia_drivers.md)
 * [3. Install `Anaconda` and `CUDA/CUDNN`](./docs/install_anaconda.md)
