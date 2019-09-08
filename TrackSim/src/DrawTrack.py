@@ -8,36 +8,36 @@ CenterlinePoints = []
 OutsidePoints = []
 InsidePoints = []
 BaseChassisPoints = [
-     0.075, -0.050,
-     0.075,  0.225,
-     0.050,  0.275,
-     0.050,  0.375,
-    -0.050,  0.375,
-    -0.050,  0.275,
-    -0.075,  0.225,
-    -0.075, -0.050,
-     0.075, -0.050
+     0.040, -0.025,
+     0.040,  0.125,
+     0.025,  0.138,
+     0.025,  0.188,
+    -0.025,  0.188,
+    -0.025,  0.138,
+    -0.040,  0.125,
+    -0.040, -0.025,
+     0.040, -0.025
 ]
 RightWheelPoints = [
      0.000,  0.000,
-     0.000, -0.050,
-     0.050, -0.050,
-     0.050,  0.050,
-     0.000,  0.050,
+     0.000, -0.025,
+     0.025, -0.025,
+     0.025,  0.025,
+     0.000,  0.025,
      0.000,  0.000
 ]
 LeftWheelPoints = [
      0.000,  0.000,
-     0.000, -0.050,
-    -0.050, -0.050,
-    -0.050,  0.050,
-     0.000,  0.050,
+     0.000, -0.025,
+    -0.025, -0.025,
+    -0.025,  0.025,
+     0.000,  0.025,
      0.000,  0.000
 ]
-RightFrontWheel = [ 0.100, 0.325]
-LeftFrontWheel  = [-0.100, 0.325]
-RightRearWheel  = [ 0.100, 0.000]
-LeftRearWheel   = [-0.100, 0.000]
+RightFrontWheel = [ 0.050, 0.163]
+LeftFrontWheel  = [-0.050, 0.163]
+RightRearWheel  = [ 0.050, 0.000]
+LeftRearWheel   = [-0.050, 0.000]
 
 BaseRightFrontWheelPoints = []
 BaseLeftFrontWheelPoints = []
@@ -455,32 +455,6 @@ def DrawLeftRearWheel():
     MoveableLeftRearWheelPoints[11] = (MoveableLeftRearWheelPoints[11] + Position[1] + Y_Offset) * Scale * -1
 
 
-def DrawScene():
-    # Draw the Track
-    i = 0
-    while(i < len(CenterlinePoints) - 1):
-        # Centreline
-        DrawDashedLine(CenterlinePoints[i][0],CenterlinePoints[i][1], CenterlinePoints[i+1][0], CenterlinePoints[i+1][1], 3, 'yellow', (255, 5))
-        # Inside Line
-        DrawLine(InsidePoints[i][0],InsidePoints[i][1], InsidePoints[i+1][0], InsidePoints[i+1][1], 3, 'black')
-        # Outside Line
-        DrawLine(OutsidePoints[i][0],OutsidePoints[i][1], OutsidePoints[i+1][0], OutsidePoints[i+1][1], 3, 'black')
-        i += 1
-    # Draw Start/Finish Line
-    DrawDashedLine(OutsidePoints[0][0],OutsidePoints[0][1], InsidePoints[0][0], InsidePoints[0][1], 5, 'red', (255, 255))
-    # Draw the Race Car's Chassis
-    DrawChassis()
-    m_Canvas.create_polygon(ChassisPoints, outline='black', width=0.5, fill='red')
-    DrawRightFrontWheel()
-    m_Canvas.create_polygon(RightFrontWheelPoints, width=0, fill='black')
-    DrawRightRearWheel()
-    m_Canvas.create_polygon(RightRearWheelPoints, width=0, fill='black')
-    DrawLeftFrontWheel()
-    m_Canvas.create_polygon(LeftFrontWheelPoints, width=0, fill='black')
-    DrawLeftRearWheel()
-    m_Canvas.create_polygon(LeftRearWheelPoints, width=0, fill='black')
-
-
 def DrawTrack():
     # Draw the Track
     i = 0
@@ -581,22 +555,6 @@ def Down_Pressed(event):
     m_Window.update()
 
 
-def main():
-    global CenterlinePoints, InsidePoints, OutsidePoints, ChassisPoints
-    global Heading, Scale, X_Offset, Y_Offset
-    global m_Window, m_Canvas, WindowWidth, WindowHeight
-
-    m_Window.title("DeepRacer - Track Simulator")
-    m_Window.bind("<Up>", Up_Pressed)
-    m_Window.bind("<Down>", Down_Pressed)
-    m_Canvas = Canvas(m_Window, width=WindowWidth, height=WindowHeight, background='white')
-    m_Canvas.grid(row=0, column=0)
-    DrawTrack()
-    DrawCar()
-    m_Canvas.pack()
-    m_Window.mainloop()
-
-
 #-------------------------------------------------------------------------------
 # 
 #-------------------------------------------------------------------------------
@@ -632,7 +590,7 @@ Position = CenterlinePoints[PositionIndex]
 dx = CenterlinePoints[1][0] - Position[0]
 dy = CenterlinePoints[1][1] - Position[1]
 Heading = math.atan2(dy, dx) - math.pi / 2
-#main()
+
 m_Window.title("DeepRacer - Track Simulator")
 m_Window.bind("<Up>", Up_Pressed)
 m_Window.bind("<Down>", Down_Pressed)
